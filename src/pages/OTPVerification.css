@@ -1,0 +1,126 @@
+.otp-verification-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.otp-verification-card {
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  max-width: 500px;
+}
+
+.otp-verification-card h1 {
+  color: #333;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.subtitle {
+  text-align: center;
+  color: #666;
+  margin-bottom: 30px;
+  font-size: 14px;
+}
+
+.info-message {
+  background-color: #eef4ff;
+  color: #234a8f;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  border-left: 4px solid #4c7ed9;
+}
+
+.verification-section {
+  margin-bottom: 40px;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.verification-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.verification-header h2 {
+  color: #333;
+  font-size: 18px;
+  margin: 0;
+}
+
+.verified-badge {
+  background: #28a745;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.verification-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.info-text {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+.verification-form .btn {
+  margin-bottom: 15px;
+}
+
+.verification-form .form-group {
+  margin-bottom: 15px;
+}
+
+.verification-form input {
+  text-align: center;
+  font-size: 22px;
+  letter-spacing: 8px;
+  font-weight: bold;
+}
+
+.verified-text {
+  color: #28a745;
+  text-align: center;
+  font-weight: 600;
+  padding: 20px;
+  background: #f0fff4;
+  border-radius: 6px;
+}
+
+.otp-verification-card > .btn-success {
+  width: 100%;
+  margin-top: 20px;
+}
+
+@media (max-width: 600px) {
+  .otp-verification-card {
+    padding: 24px;
+  }
+
+  .verification-section {
+    padding: 16px;
+    margin-bottom: 24px;
+  }
+
+  .verification-form input {
+    font-size: 18px;
+    letter-spacing: 6px;
+  }
+}
