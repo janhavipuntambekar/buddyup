@@ -109,16 +109,16 @@ const Signup = () => {
                               className="absolute top-full mt-2 left-0 w-72 p-3 rounded-2xl shadow-2xl"
                               style={{
                                 zIndex: 99999,
-                                background: '#090b15',
-                                border: '1px solid rgba(124, 58, 237, 0.4)',
-                                boxShadow: '0 25px 60px rgba(0,0,0,0.95)'
+                                background: '#ffffff',
+                                border: '1px solid rgba(0, 0, 0, 0.12)',
+                                boxShadow: '0 20px 50px rgba(0,0,0,0.15)'
                               }}
                             >
                               <div className="relative mb-2 flex items-center">
                                 <Search size={14} className="absolute left-3 text-gray-400 pointer-events-none" />
                                 <input
                                   type="text"
-                                  placeholder="Search country or code (+91, IN...)"
+                                  placeholder="Search country or code"
                                   className="w-full bg-white/5 border border-white/10 text-white rounded-xl py-2 pl-9 pr-3 text-xs outline-none focus:border-primary-500/50"
                                   value={countrySearch}
                                   onChange={(e) => setCountrySearch(e.target.value)}

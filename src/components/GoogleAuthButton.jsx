@@ -8,9 +8,11 @@ const GoogleAuthButton = ({ buttonText = "Sign in with Google" }) => {
   const googleBtnRef = useRef(null);
   const [gsiRendered, setGsiRendered] = useState(false);
 
-  const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || "1083948293-exampleclientid.apps.googleusercontent.com";
+  const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || "248782999507-3cf0mshulvmcl8nlmoeke9s3uh6vnd1d.apps.googleusercontent.com";
 
   useEffect(() => {
+    let interval;
+
     const handleCredentialResponse = async (response) => {
       try {
         await googleLogin({ credential: response.credential });
@@ -21,29 +23,42 @@ const GoogleAuthButton = ({ buttonText = "Sign in with Google" }) => {
       }
     };
 
-    if (window.google?.accounts?.id) {
-      try {
-        window.google.accounts.id.initialize({
-          client_id: GOOGLE_CLIENT_ID,
-          callback: handleCredentialResponse,
-        });
+    const tryRender = () => {
+      if (window.google?.accounts?.id && googleBtnRef.current) {
+        try {
+          window.google.accounts.id.initialize({
+            client_id: GOOGLE_CLIENT_ID,
+            callback: handleCredentialResponse,
+          });
 
-        if (googleBtnRef.current) {
           googleBtnRef.current.innerHTML = '';
           window.google.accounts.id.renderButton(googleBtnRef.current, {
             theme: 'outline',
             size: 'large',
-            width: '320',
+            width: 320,
             text: buttonText === 'Sign up with Google' ? 'signup_with' : 'signin_with',
             shape: 'pill',
           });
           setGsiRendered(true);
+          return true;
+        } catch (e) {
+          console.warn('Google GSI init failed:', e);
         }
-      } catch (e) {
-        console.warn('Google GSI init failed:', e);
-        setGsiRendered(false);
       }
+      return false;
+    };
+
+    if (!tryRender()) {
+      interval = setInterval(() => {
+        if (tryRender()) {
+          clearInterval(interval);
+        }
+      }, 300);
     }
+
+    return () => {
+      if (interval) clearInterval(interval);
+    };
   }, [googleLogin, navigate, buttonText, GOOGLE_CLIENT_ID]);
 
   const handleSimulatedGoogleAuth = async () => {
@@ -65,7 +80,7 @@ const GoogleAuthButton = ({ buttonText = "Sign in with Google" }) => {
 
   return (
     <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-      {/* Official Google GSI button if rendered */}
+      {/* Official Google GSI button container */}
       <div 
         ref={googleBtnRef} 
         style={{ 
@@ -75,7 +90,7 @@ const GoogleAuthButton = ({ buttonText = "Sign in with Google" }) => {
         }} 
       />
 
-      {/* Clean fallback Google button if GSI is not loaded */}
+      {/* Fallback Google button if GSI script is blocked */}
       {!gsiRendered && (
         <button 
           type="button" 
@@ -89,14 +104,14 @@ const GoogleAuthButton = ({ buttonText = "Sign in with Google" }) => {
             padding: '14px 20px',
             background: '#ffffff',
             color: '#1f2937',
-            border: 'none',
+            border: '1px solid #e5e7eb',
             borderRadius: '16px',
             fontWeight: 800,
             fontSize: '13px',
             textTransform: 'none',
             letterSpacing: '0.02em',
             cursor: 'pointer',
-            boxShadow: '0 4px 20px rgba(0,0,0,0.25)',
+            boxShadow: '0 4px 15px rgba(0,0,0,0.06)',
             transition: 'all 0.2s ease',
           }}
           onMouseEnter={(e) => {
