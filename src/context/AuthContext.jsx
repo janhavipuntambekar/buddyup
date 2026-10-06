@@ -60,6 +60,19 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const googleLogin = async (googlePayload) => {
+    setLoading(true);
+    try {
+      const response = await authAPI.googleAuth(googlePayload);
+      localStorage.setItem('token', response.data.token);
+      setToken(response.data.token);
+      setUser(response.data.user);
+      return response.data;
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const sendEmailOTP = async (email) => {
     const response = await authAPI.sendEmailOTP(email);
     return response.data;
@@ -107,6 +120,17 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const rejectConnectionRequest = async (userId) => {
+    const response = await authAPI.rejectConnectionRequest(userId);
+    await fetchCurrentUser();
+    return response.data;
+  };
+
+  const getConnections = async () => {
+    const response = await authAPI.getConnections();
+    return response.data;
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -115,6 +139,7 @@ export const AuthProvider = ({ children }) => {
         loading,
         signup,
         login,
+        googleLogin,
         logout,
         sendEmailOTP,
         sendPhoneOTP,
@@ -123,6 +148,9 @@ export const AuthProvider = ({ children }) => {
         getAllUsers,
         sendConnectionRequest,
         acceptConnectionRequest,
+        rejectConnectionRequest,
+        getConnections,
+        fetchCurrentUser,
         userId: decodeToken(token)?.id,
       }}
     >

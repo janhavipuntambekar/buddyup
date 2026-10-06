@@ -61,24 +61,24 @@ const Profile = () => {
         >
           <div className="absolute top-0 right-0 w-64 h-64 bg-primary-600/10 blur-[120px] -z-10 bg-blue-600/20"></div>
           
-          <div className="flex flex-col md:flex-row items-center md:items-start space-y-8 md:space-y-0 md:space-x-12">
-            <div className="relative">
-              <div className="w-32 h-32 md:w-48 md:h-48 bg-gradient-to-br from-primary-400 to-primary-700 rounded-3xl flex items-center justify-center shadow-2xl transform rotate-6 hover:rotate-0 transition-all duration-300">
-                <span className="text-white text-5xl md:text-7xl font-black uppercase">{formData.name[0] || user.name[0]}</span>
-                <div className="absolute -bottom-4 -right-4 w-12 h-12 bg-green-500 border-8 border-background-dark rounded-full"></div>
+          <div className="flex flex-col md:flex-row items-center md:items-start space-y-6 md:space-y-0 md:space-x-8">
+            <div className="relative flex-shrink-0">
+              <div className="w-28 h-28 md:w-36 md:h-36 bg-gradient-to-br from-primary-400 to-primary-700 rounded-3xl flex items-center justify-center shadow-2xl transition-all duration-300">
+                <span className="text-white text-4xl md:text-6xl font-black uppercase">{formData.name[0] || user.name[0]}</span>
+                <div className="absolute -bottom-2 -right-2 w-8 h-8 md:w-10 md:h-10 bg-green-500 border-4 md:border-6 border-background-dark rounded-full"></div>
               </div>
             </div>
             
-            <div className="flex-1 text-center md:text-left w-full">
-              <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+            <div className="flex-1 min-w-0 text-center md:text-left w-full">
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
                 {isEditing ? (
                   <input 
-                    className="text-4xl md:text-5xl font-black mb-2 uppercase tracking-tighter bg-white/5 border border-white/10 rounded-xl px-4 py-2 w-full outline-none focus:ring-2 focus:ring-primary-600 transition-all"
+                    className="text-3xl md:text-5xl font-black uppercase tracking-tighter bg-white/5 border border-white/10 rounded-xl px-4 py-2 w-full outline-none focus:ring-2 focus:ring-primary-600 transition-all"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   />
                 ) : (
-                  <h1 className="text-4xl md:text-5xl font-black mb-2 uppercase tracking-tighter">{user.name}</h1>
+                  <h1 className="text-3xl md:text-5xl font-black uppercase tracking-tighter break-words text-white">{user.name}</h1>
                 )}
                 <div className="flex space-x-2 justify-center md:justify-start mt-4 md:mt-0">
                   {isEditing ? (

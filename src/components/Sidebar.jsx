@@ -41,19 +41,52 @@ const Sidebar = () => {
         </span>
       </Link>
 
-      {/* Profile Summary Slot */}
-      <div className="glass-card mb-12 p-6 border-white/5 relative group overflow-hidden">
-         <div className="absolute top-0 right-0 w-24 h-24 bg-primary-600/5 blur-3xl -z-10 group-hover:bg-primary-500/10 transition-all"></div>
-         <div className="flex items-center space-x-4">
-            <div className="w-12 h-12 bg-primary-600/20 rounded-xl flex items-center justify-center font-black text-primary-400">
-               {user?.name?.[0]}
+      {/* Profile Summary Slot — click to go to profile */}
+      <Link
+        to="/profile"
+        className="glass-card mb-8 p-4 border-white/5 relative group block"
+        style={{
+          textDecoration: 'none',
+          cursor: 'pointer',
+          padding: '14px 16px',
+          borderRadius: '16px',
+          background: 'rgba(255,255,255,0.04)',
+          border: '1px solid rgba(255,255,255,0.08)',
+          boxSizing: 'border-box'
+        }}
+      >
+         <div className="flex items-center space-x-3">
+            <div 
+              className="bg-primary-600/20 text-primary-400 font-black flex items-center justify-center flex-shrink-0"
+              style={{
+                width: '40px',
+                height: '40px',
+                borderRadius: '12px',
+                fontSize: '16px',
+                background: 'rgba(124,58,237,0.2)'
+              }}
+            >
+               {user?.name?.[0] || 'U'}
             </div>
-            <div>
-               <h4 className="text-xs font-black uppercase tracking-tight truncate max-w-[120px]">{user?.name}</h4>
-               <p className="text-[10px] font-black uppercase tracking-widest text-gray-600 italic">Level 1 Buddy</p>
+            <div style={{ minWidth: 0, flex: 1 }}>
+               <h4 
+                 className="text-xs font-black uppercase tracking-tight text-white" 
+                 style={{ 
+                   margin: 0, 
+                   fontSize: '11px', 
+                   fontWeight: 900, 
+                   overflow: 'hidden', 
+                   textOverflow: 'ellipsis', 
+                   whiteSpace: 'nowrap' 
+                 }} 
+                 title={user?.name}
+               >
+                 {user?.name || 'User'}
+               </h4>
+               <p style={{ margin: 0, fontSize: '9px', fontWeight: 800, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.08em', fontStyle: 'italic' }}>View Profile →</p>
             </div>
          </div>
-      </div>
+      </Link>
 
       {/* Navigation */}
       <div className="space-y-3 flex-1">

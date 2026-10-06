@@ -27,8 +27,6 @@ const FindBuddies = () => {
   }, [getAllUsers]);
 
   const filteredBuddies = buddies.filter(buddy => {
-    if (!buddy.isProvider) return false;
-
     const matchesSearch = buddy.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       (buddy.skills && buddy.skills.some(skill => skill.toLowerCase().includes(searchTerm.toLowerCase()))) ||
       (buddy.branch && buddy.branch.toLowerCase().includes(searchTerm.toLowerCase()));
@@ -47,45 +45,57 @@ const FindBuddies = () => {
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          className="max-w-4xl mx-auto glass shadow-2xl p-4 md:p-6 mb-16 rounded-3xl animate-fade-in relative overflow-visible"
+          className="max-w-4xl mx-auto glass shadow-2xl p-2 mb-16 rounded-2xl animate-fade-in relative z-50 overflow-visible border border-white/10"
         >
           <div className="absolute top-0 right-0 w-32 h-32 bg-primary-600/10 blur-3xl -z-10 animate-float bg-blue-600/20"></div>
           
-          <div className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4">
-            <div className="relative flex-1 group w-full">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-primary-400 transition-colors" />
-              <input 
-                type="text" 
-                placeholder="Search Skills, Names, or Branches..." 
-                className="w-full bg-white/5 border border-white/10 text-white rounded-2xl py-4 pl-12 pr-6 focus:ring-2 focus:ring-primary-600 transition-all outline-none font-black uppercase tracking-widest text-xs"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
+          <div className="flex items-center gap-2 relative">
+            {/* Search icon */}
+            <div className="pl-3 text-gray-400 flex-shrink-0 flex items-center justify-center">
+              <Search size={18} />
             </div>
-            <div className="relative">
+
+            {/* Input field */}
+            <input 
+              type="text" 
+              placeholder="Search Skills, Names, or Branches..." 
+              className="flex-1 bg-transparent border-none text-white outline-none font-black uppercase tracking-widest text-xs px-2 py-3.5"
+              style={{ minWidth: 0 }}
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+
+            {/* Filter button */}
+            <div className="relative z-50 flex-shrink-0">
               <button 
                 onClick={() => setIsFilterOpen(!isFilterOpen)}
-                className="flex items-center space-x-2 px-8 py-4 bg-white/10 hover:bg-white/20 border border-white/10 rounded-2xl transition-all shadow-xl font-black uppercase tracking-widest text-[10px]"
+                className="flex items-center space-x-2 px-5 py-3 bg-primary-600 hover:bg-primary-500 text-white rounded-xl transition-all shadow-lg font-black uppercase tracking-widest text-[10px] cursor-pointer flex-shrink-0"
               >
-                <Filter size={18} />
-                <span>{filterBranch === 'All' ? 'Filters' : filterBranch}</span>
+                <Filter size={15} />
+                <span>{filterBranch === 'All' ? 'Filter' : filterBranch}</span>
               </button>
               
               <AnimatePresence>
                 {isFilterOpen && (
                   <motion.div 
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 10 }}
-                    className="absolute top-full mt-4 right-0 w-56 glass-card p-4 z-50 border-primary-500/30"
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                    className="absolute top-full mt-3 right-0 w-60 p-5 rounded-2xl shadow-2xl"
+                    style={{ 
+                      zIndex: 99999,
+                      background: '#ffffff',
+                      border: '1px solid rgba(0, 0, 0, 0.12)',
+                      boxShadow: '0 20px 50px rgba(0, 0, 0, 0.12)'
+                    }}
                   >
-                    <h4 className="text-[10px] font-black uppercase tracking-widest text-gray-500 mb-4 px-2">Filter by Branch</h4>
-                    <div className="space-y-1">
+                    <h4 className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-4 px-1 border-b border-white/10 pb-2">Filter by Branch</h4>
+                    <div className="space-y-1.5 max-h-60 overflow-y-auto custom-scrollbar">
                       {branches.map(branch => (
                         <button 
                           key={branch}
                           onClick={() => { setFilterBranch(branch); setIsFilterOpen(false); }}
-                          className={`w-full text-left px-4 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${filterBranch === branch ? 'bg-primary-600 text-white' : 'hover:bg-white/5 text-gray-400'}`}
+                          className={`w-full text-left px-4 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${filterBranch === branch ? 'bg-primary-600 text-white shadow-lg' : 'hover:bg-white/10 text-gray-400 hover:text-white'}`}
                         >
                           {branch}
                         </button>

@@ -4,7 +4,7 @@ import { LayoutDashboard, Users, Send, Settings, Bell, Star, MoreVertical, Plus,
 import { useAuth } from '../context/AuthContext';
 
 const Dashboard = () => {
-  const { user, acceptConnectionRequest, getAllUsers } = useAuth();
+  const { user, acceptConnectionRequest, rejectConnectionRequest, getAllUsers, fetchCurrentUser } = useAuth();
   const [pendingBuddies, setPendingBuddies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -20,6 +20,8 @@ const Dashboard = () => {
         } catch (e) {
           console.error(e);
         }
+      } else {
+        setPendingBuddies([]);
       }
       setLoading(false);
     };
@@ -30,8 +32,19 @@ const Dashboard = () => {
     try {
       await acceptConnectionRequest(id);
       setPendingBuddies(prev => prev.filter(p => p._id !== id));
+      if (fetchCurrentUser) await fetchCurrentUser();
     } catch (e) {
-      console.error(e);
+      console.error('Accept error:', e);
+    }
+  };
+
+  const handleDecline = async (id) => {
+    try {
+      await rejectConnectionRequest(id);
+      setPendingBuddies(prev => prev.filter(p => p._id !== id));
+      if (fetchCurrentUser) await fetchCurrentUser();
+    } catch (e) {
+      console.error('Decline error:', e);
     }
   };
 
@@ -64,7 +77,8 @@ const Dashboard = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 z-[150] flex items-center justify-center p-6 bg-black/80 backdrop-blur-md"
+              className="fixed inset-0 flex items-center justify-center p-6 bg-black/80 backdrop-blur-md"
+              style={{ zIndex: 999999 }}
             >
                <motion.div 
                   initial={{ scale: 0.9, y: 20 }}
@@ -164,7 +178,7 @@ const Dashboard = () => {
                                         <button onClick={() => handleAccept(buddy._id)} className="p-2 bg-green-500/10 text-green-500 hover:bg-green-500 hover:text-white rounded-lg transition-all border border-green-500/20">
                                             <Check size={18} />
                                         </button>
-                                        <button className="p-2 bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white rounded-lg transition-all border border-red-500/20">
+                                        <button onClick={() => handleDecline(buddy._id)} className="p-2 bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white rounded-lg transition-all border border-red-500/20">
                                             <X size={18} />
                                         </button>
                                     </div>
